@@ -1,10 +1,15 @@
 <?php
-
+echo "Hello World";
 require 'functions.php';
 require 'database.php';
 
 $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
 
+/**
+ * 
+ * Посмотреть пострение роутов через method exists или function exists
+ * 
+ */
 
 $routes = [
   '/upload' => 'controllers/upload.php',

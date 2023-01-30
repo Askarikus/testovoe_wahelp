@@ -9,6 +9,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // var_dump($array);      
         // echo '</pre>';
         
+        /**
+         * 
+         * 
+         * Т.к. загрузок очень много идет, то есть в одну таблицу, лучше использовать массову загрзку, то есть когда в INSET INTO записывается несколько VALUES через запятую
+         */
         $sql = "INSERT INTO test_list (id, name, state) VALUES (?, ?, ?)";
         
         foreach ($array as $row) {            

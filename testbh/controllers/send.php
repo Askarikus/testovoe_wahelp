@@ -11,6 +11,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $stmt = $pdo->prepare($sql);
     $stmt->execute();
     $r = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+    /**
+     * 
+     * продумать если у несколько рассылок 
+     * 
+     */
+
     // dd($r);
     foreach($r as $row){
         if(!$row['state']){

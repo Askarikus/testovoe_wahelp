@@ -1,0 +1,35 @@
+version: '3.0'
+services:
+  testbh-nginx:
+    build:
+      context: ./docker/nginx
+    volumes:
+      - ./testbh:/testbh
+    container_name: ${PROJECT_NAME}-nginx
+    restart: always
+    networks:
+      - testbh
+    ports:
+      - "80:80"
+  testbh-db:
+    build:
+      context: ./docker/db      
+    container_name: ${PROJECT_NAME}-db
+    ports:
+      - "54321:5432"
+    networks:
+      - testbh
+  testbh-php:
+    build:
+      context: ./docker/php
+    volumes:
+      - ./testbh:/testbh
+    container_name:  ${PROJECT_NAME}-php
+    depends_on:
+      - testbh-db
+    restart: always
+    networks:
+      - testbh
+networks:
+  testbh:
+    name: testbh               
