@@ -1,7 +1,7 @@
 <?php
-echo "Hello World";
+// echo "Hello World \n";
 require 'functions.php';
-require 'database.php';
+require 'Database.php';
 
 $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
 

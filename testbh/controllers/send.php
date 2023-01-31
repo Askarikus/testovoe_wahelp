@@ -8,6 +8,7 @@ function send_message($id, $name){
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $sql = "SELECT * FROM test_list";
+    $pdo = Database::getInstances();
     $stmt = $pdo->prepare($sql);
     $stmt->execute();
     $r = $stmt->fetchAll(\PDO::FETCH_ASSOC);
