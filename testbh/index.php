@@ -1,5 +1,4 @@
 <?php
-// echo "Hello World \n";
 require 'functions.php';
 require 'Database.php';
 

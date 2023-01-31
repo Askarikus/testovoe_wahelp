@@ -24,7 +24,11 @@ services:
       context: ./docker/php
     volumes:
       - ./testbh:/testbh
+      # - ./xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-debug.ini
     container_name:  ${PROJECT_NAME}-php
+    environment:
+      XDEBUG_MODE: "debug"
+      XDEBUG_CONFIG: "client_host=host.docker.internal client_port=9003" 
     depends_on:
       - testbh-db
     restart: always

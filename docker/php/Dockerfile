@@ -18,6 +18,8 @@ RUN docker-php-ext-enable apcu pdo_pgsql sodium
 
 RUN printf "\n" | pecl install imagick
 RUN docker-php-ext-enable imagick
+RUN pecl install xdebug 
+RUN docker-php-ext-enable xdebug
 
 ADD ./xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 ADD ./error_reporting.ini /usr/local/etc/php/conf.d/error_reporting.ini
