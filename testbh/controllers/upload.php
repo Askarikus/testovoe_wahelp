@@ -1,5 +1,7 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    var_dump($_FILES);
+    die();
 
     $file_path = $_FILES['file']['tmp_name'];
     
@@ -9,6 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
          * 
          * Т.к. загрузок очень много идет, то есть в одну таблицу, лучше использовать массову загрзку, то есть когда в INSET INTO записывается несколько VALUES через запятую
          */
+        
         $array = file($file_path);
         $row_length = 3;
         $nb_rows = count($array);
