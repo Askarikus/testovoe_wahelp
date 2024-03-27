@@ -2,25 +2,23 @@
 
 
 // фиктивная функция для рассылки сообщений
-function send_message($id, $name){
+function send_message($id){
     return $id;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $sql = "SELECT * FROM test_list";
+    $sql = "SELECT * FROM test_list where state = false";
     $pdo = Database::getInstances();
     $stmt = $pdo->prepare($sql);
     $stmt->execute();
-    $r = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    $fetchedResult = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
     /**
-     * 
-     * продумать если у несколько рассылок 
-     * 
+     *
+     * в данном случае рассылка одна
+     *
      */
-
-    // dd($r);
-    foreach($r as $row){
+    foreach($fetchedResult as $row){
         if(!$row['state']){
             send_message($row['id'], $row['name']);
             // записываем в базу true

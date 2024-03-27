@@ -1,21 +1,17 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    var_dump($_FILES);
-    die();
 
     $file_path = $_FILES['file']['tmp_name'];
-    
+
     if (file_exists($file_path)){
         /**
-         * 
-         * 
-         * Т.к. загрузок очень много идет, то есть в одну таблицу, лучше использовать массову загрзку, то есть когда в INSET INTO записывается несколько VALUES через запятую
+         * Т.к. загрузок очень много идет, то есть в одну таблицу, лучше использовать массовую загрузку, то есть когда в INSET INTO записывается несколько VALUES через запятую
          */
-        
+
         $array = file($file_path);
         $row_length = 3;
-        $nb_rows = count($array);
-        $length = $nb_rows * $row_length;
+        $nmbRows = count($array);
+        $length = $nmbRows * $row_length;
         // строит строку вида (?,?,?), (?,?,?),(?,?,?),.....
         $args = implode(',', array_map(
             function ($el) {
@@ -34,10 +30,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         // таким образом все добавляется одним sql запросом
         $pdo = Database::getInstances();
-        $query = "INSERT INTO  test_list (id, name, state) VALUES " . $args;
-        $stmt = $pdo->prepare($query);
-        $stmt->execute($params);      
+        try {
+            $query = "INSERT INTO  test_list (id, name, state) VALUES " . $args;
+            $stmt = $pdo->prepare($query);
+            $stmt->execute($params);
+
+        } catch (Exception $e) {
+            echo "Error: " . $e->getMessage();
+        }
 
     }
-        
+
 }
