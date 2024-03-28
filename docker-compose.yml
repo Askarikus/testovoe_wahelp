@@ -17,6 +17,8 @@ services:
     container_name: ${PROJECT_NAME}-db
     ports:
       - "54321:5432"
+    volumes:
+    - ./docker/db/data:/var/lib/postgresql/data:rw
     networks:
       - testbh
   testbh-php:

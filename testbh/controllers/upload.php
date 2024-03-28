@@ -9,29 +9,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
          */
 
         $array = file($file_path);
-        $row_length = 3;
+        $rowLength = 2;
         $nmbRows = count($array);
-        $length = $nmbRows * $row_length;
-        // строит строку вида (?,?,?), (?,?,?),(?,?,?),.....
+        $length = $nmbRows * $rowLength;
+        // строит строку вида (?,?), (?,?),(?,?),.....
         $args = implode(',', array_map(
             function ($el) {
                 return '(' . implode(',', $el) . ')';
             },
-            array_chunk(array_fill(0, $length, '?'), $row_length)
+            array_chunk(array_fill(0, $length, '?'), $rowLength)
         ));
         // этот блок выстраивает параметры в ряд, разворачивая в последовательность number, name, state, number, name, state,.....
         $params = array();
         foreach ($array as $row) {
             $csv = str_getcsv($row);
-            $input_row = [(int)$csv[0], $csv[1], 0];
-            foreach ($input_row as $value) {
+            $inputRow = [(int)$csv[0], $csv[1]];
+            foreach ($inputRow as $value) {
                 $params[] = $value;
             }
         }
         // таким образом все добавляется одним sql запросом
         $pdo = Database::getInstances();
         try {
-            $query = "INSERT INTO  test_list (id, name, state) VALUES " . $args;
+            $query = "INSERT INTO  test_list (id, name) VALUES " . $args;
             $stmt = $pdo->prepare($query);
             $stmt->execute($params);
 

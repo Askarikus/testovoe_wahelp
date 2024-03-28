@@ -1,4 +1,4 @@
 CREATE TABLE test_list(
 id BIGINT PRIMARY KEY,
 name VARCHAR(500) NOT NULL,
-state BOOLEAN);
+state JSONB);

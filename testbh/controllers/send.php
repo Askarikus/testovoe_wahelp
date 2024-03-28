@@ -1,28 +1,29 @@
 <?php
 
-
-// фиктивная функция для рассылки сообщений
-function send_message($id){
-    return $id;
-}
-
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $sql = "SELECT * FROM test_list where state = false";
-    $pdo = Database::getInstances();
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute();
-    $fetchedResult = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
     /**
      *
-     * в данном случае рассылка одна
+     * в данном случае
+     * first_mailing первая рассылка
+     * second_mailing - вторая
      *
      */
-    foreach($fetchedResult as $row){
-        if(!$row['state']){
-            send_message($row['id'], $row['name']);
-            // записываем в базу true
-            $sql = "UPDATE test_list SET state=true where id = :id";
+    $mailings = ["firstMailing", "secondMailing"];
+    foreach ($mailings as $mailing) {
+        $sql = "SELECT * FROM test_list";
+        $pdo = Database::getInstances();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $fetchedResult = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        foreach($fetchedResult as $row){
+            if($row['state'] === NULL){
+                $sql = "UPDATE test_list SET state=json_build_object('$mailing', 'true')::jsonb where id = :id";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([':id' => $row['id']]);
+                continue;
+            }
+            $sql = "UPDATE test_list SET state=state || json_build_object('$mailing', 'true')::jsonb where id = :id";
             $stmt = $pdo->prepare($sql);
             $stmt->execute([':id' => $row['id']]);
         }
