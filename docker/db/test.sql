@@ -1,4 +1,3 @@
-CREATE TABLE test_list(
-id BIGINT PRIMARY KEY,
-name VARCHAR(500) NOT NULL,
-state JSONB);
+CREATE TABLE random_numbers(
+id SERIAL PRIMARY KEY,
+value INT NOT NULL);

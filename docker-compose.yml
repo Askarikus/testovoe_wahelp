@@ -1,40 +1,37 @@
 version: '3.0'
 services:
-  testbh-nginx:
+  nginx:
     build:
       context: ./docker/nginx
     volumes:
-      - ./testbh:/testbh
+      - ./testwahelp:/testwahelp
     container_name: ${PROJECT_NAME}-nginx
     restart: always
+    depends_on:
+      - php
     networks:
-      - testbh
+      - testwahelp
     ports:
       - "80:80"
-  testbh-db:
+  db:
     build:
       context: ./docker/db
     container_name: ${PROJECT_NAME}-db
     ports:
       - "54321:5432"
-    volumes:
-    - ./docker/db/data:/var/lib/postgresql/data:rw
     networks:
-      - testbh
-  testbh-php:
+      - testwahelp
+  php:
     build:
       context: ./docker/php
     volumes:
-      - ./testbh:/testbh
+      - ./testwahelp:/testwahelp
     container_name:  ${PROJECT_NAME}-php
-    environment:
-      XDEBUG_MODE: "debug"
-      XDEBUG_CONFIG: "client_host=host.docker.internal client_port=9003"
     depends_on:
-      - testbh-db
+      - db
     restart: always
     networks:
-      - testbh
+      - testwahelp
 networks:
-  testbh:
-    name: testbh
+  testwahelp:
+    name: testwahelp

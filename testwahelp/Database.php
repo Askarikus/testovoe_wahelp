@@ -13,12 +13,12 @@ class Database
     {
         if (empty(self::$instance)) {
             $config = [
-                'host' => 'testbh-db',
+                'host' => 'testwahelp-db',
                 'port' => 5432,
                 'dbname' => 'test_db',
             ];
             $configAdd = [
-                'db_user' => 'postgres',
+                'db_user' => 'test_user',
                 'db_password' => 'test_password'
             ];
             try {
